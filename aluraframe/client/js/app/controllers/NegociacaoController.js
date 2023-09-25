@@ -2,6 +2,7 @@ class NegociacaoController {
   #inputData;
   #inputQuantidade;
   #inputValor;
+  #listaNegociacoes;
 
   constructor() {
     let $ = document.querySelector.bind(document);
@@ -9,23 +10,29 @@ class NegociacaoController {
     this.#inputData = $("#data");
     this.#inputQuantidade = $("#quantidade");
     this.#inputValor = $("#valor");
+    this.#listaNegociacoes = new ListaNegociacoes();
   }
 
   adiciona(event) {
     event.preventDefault();
 
-    let data = new Date(
-      ...this.#inputData.value
-        .split("-")
-        .map((item, indice) => item - (indice % 2))
-    );
+    this.#listaNegociacoes.adiciona(this.#criaNegocicao());
+    this.#limpaFormulario();
+  }
 
-    let negociacao = new Negociacao(
-      data,
+  #criaNegocicao() {
+    return new Negociacao(
+      DateHelper.textoParaData(this.#inputData.value),
       this.#inputQuantidade.value,
       this.#inputValor.value
     );
+  }
 
-    console.log(negociacao);
+  #limpaFormulario() {
+    this.#inputData.value = "";
+    this.#inputQuantidade.value = 1;
+    this.#inputValor.value = 0.0;
+
+    this.#inputData.focus();
   }
 }
