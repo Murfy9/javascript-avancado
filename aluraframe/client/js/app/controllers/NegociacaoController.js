@@ -3,6 +3,7 @@ class NegociacaoController {
   #inputQuantidade;
   #inputValor;
   #listaNegociacoes;
+  #negociacoesView;
 
   constructor() {
     let $ = document.querySelector.bind(document);
@@ -11,12 +12,16 @@ class NegociacaoController {
     this.#inputQuantidade = $("#quantidade");
     this.#inputValor = $("#valor");
     this.#listaNegociacoes = new ListaNegociacoes();
+    this.#negociacoesView = new NegociacoesView($("#negociacoesView"));
+
+    this.#negociacoesView.update(this.#listaNegociacoes);
   }
 
   adiciona(event) {
     event.preventDefault();
 
     this.#listaNegociacoes.adiciona(this.#criaNegocicao());
+    this.#negociacoesView.update(this.#listaNegociacoes);
     this.#limpaFormulario();
   }
 
